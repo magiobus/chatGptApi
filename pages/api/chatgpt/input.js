@@ -27,11 +27,11 @@ can you give me a prompt for stable difussion to generate the thumbnail backgrou
   const prompt = response.substring(index + 1);
 
   //Clean prompt so it does not contain the chars " and /n and /t and  \
-  const promptClean = prompt
-    .replace(/"/g, "")
-    .replace(/\n/g, "")
-    .replace(/\t/g, "")
-    .replace(/\\/g, "");
+  const promptClean = prompt.replaceAll('"', "");
+  const promptClean2 = promptClean
+    .replaceAll("\n", "")
+    .replaceAll("\t", "")
+    .replaceAll("\\", "");
 
-  res.status(200).json(promptClean);
+  res.status(200).json(promptClean2);
 }
