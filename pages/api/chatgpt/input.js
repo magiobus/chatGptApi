@@ -17,11 +17,21 @@ can you give me a prompt for stable difussion to generate the thumbnail backgrou
   // ensure the API is properly authenticated
   const ensureAuth = await api.ensureAuth();
 
+  if (!ensureAuth)
+    return res.status(500).json({ error: "Error session token" });
+
   // send a message and wait for the response
   const response = await api.sendMessage(message);
   //search for the first ":" in the response and return the text after it
   const index = response.indexOf(":");
   const prompt = response.substring(index + 1);
 
-  res.status(200).json(prompt);
+  //Clean prompt so it does not contain the chars " and /n and /t and  \
+  const promptClean = prompt
+    .replace(/"/g, "")
+    .replace(/\n/g, "")
+    .replace(/\t/g, "")
+    .replace(/\\/g, "");
+
+  res.status(200).json(promptClean);
 }
